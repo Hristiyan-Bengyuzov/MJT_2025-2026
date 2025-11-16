@@ -15,23 +15,23 @@ public class HumorousErgenka extends AbstractErgenka {
 
         int duration = dateEvent.getDuration();
 
-        if (duration >= 30 && duration <= 90) {
-            return 4;
-        }
-
         if (duration < 30) {
             return -2;
         }
 
-        return -3;
+        if (duration <= 90) {
+            return 4;
+        }
+
+        if (duration > 120) {
+            return -3;
+        }
+
+        return 0;
     }
 
     @Override
     public void reactToDate(DateEvent dateEvent) {
-        if (dateEvent == null) {
-            return;
-        }
-
         this.rating += getHumorLevel() * 5 / dateEvent.getTensionLevel() + Math.floorDiv(getRomanceLevel(), 3) + getBonus(dateEvent);
     }
 }

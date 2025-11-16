@@ -2,15 +2,21 @@ package bg.sofia.uni.fmi.mjt.show;
 
 import bg.sofia.uni.fmi.mjt.show.date.DateEvent;
 import bg.sofia.uni.fmi.mjt.show.elimination.EliminationRule;
+import bg.sofia.uni.fmi.mjt.show.elimination.LowestRatingEliminationRule;
 import bg.sofia.uni.fmi.mjt.show.ergenka.Ergenka;
 
 public class ShowAPIImpl implements ShowAPI {
-    private final Ergenka[] ergenkas;
+    private Ergenka[] ergenkas;
     private final EliminationRule[] defaultEliminationRules;
 
     public ShowAPIImpl(Ergenka[] ergenkas, EliminationRule[] defaultEliminationRules) {
         this.ergenkas = ergenkas;
-        this.defaultEliminationRules = defaultEliminationRules;
+
+        if (defaultEliminationRules == null || defaultEliminationRules.length == 0) {
+            this.defaultEliminationRules = new EliminationRule[]{new LowestRatingEliminationRule()};
+        } else {
+            this.defaultEliminationRules = defaultEliminationRules;
+        }
     }
 
 
@@ -35,17 +41,13 @@ public class ShowAPIImpl implements ShowAPI {
         var rules = (eliminationRules == null || eliminationRules.length == 0) ? defaultEliminationRules : eliminationRules;
 
         for (EliminationRule rule : rules) {
-            if (rule == null) {
-                continue;
-            }
-
-            rule.eliminateErgenkas(ergenkas);
+            this.ergenkas = rule.eliminateErgenkas(ergenkas);
         }
     }
 
     @Override
     public void organizeDate(Ergenka ergenka, DateEvent dateEvent) {
-        if (ergenka == null || dateEvent == null) {
+        if (ergenka == null) {
             return;
         }
 

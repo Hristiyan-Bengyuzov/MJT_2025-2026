@@ -36,10 +36,6 @@ public class RomanticErgenka extends AbstractErgenka {
 
     @Override
     public void reactToDate(DateEvent dateEvent) {
-        if (dateEvent == null) {
-            return;
-        }
-
         this.rating += getRomanceLevel() * 7 / dateEvent.getTensionLevel() + Math.floorDiv(getHumorLevel(), 3) + getBonus(dateEvent);
     }
 }

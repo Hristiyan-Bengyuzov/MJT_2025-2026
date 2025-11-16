@@ -17,7 +17,7 @@ public class LowAttributeSumEliminationRule implements EliminationRule {
 
         int ergenkasCount = 0;
         for (Ergenka ergenka : ergenkas) {
-            if (getErgenkaScore(ergenka) >= threshold) {
+            if (ergenka != null && getErgenkaScore(ergenka) >= threshold) {
                 ergenkasCount++;
             }
         }
@@ -25,7 +25,7 @@ public class LowAttributeSumEliminationRule implements EliminationRule {
         Ergenka[] res = new Ergenka[ergenkasCount];
         int write = 0;
         for (Ergenka ergenka : ergenkas) {
-            if (getErgenkaScore(ergenka) >= threshold) {
+            if (ergenka != null && getErgenkaScore(ergenka) >= threshold) {
                 res[write++] = ergenka;
             }
         }

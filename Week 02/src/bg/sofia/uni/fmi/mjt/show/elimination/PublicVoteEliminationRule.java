@@ -26,7 +26,7 @@ public class PublicVoteEliminationRule implements EliminationRule {
         int write = 0;
 
         for (Ergenka ergenka : ergenkas) {
-            if (!ergenka.getName().equals(majorityVote)) {
+            if (ergenka != null && !ergenka.getName().equals(majorityVote)) {
                 res[write++] = ergenka;
             }
         }
@@ -43,13 +43,15 @@ public class PublicVoteEliminationRule implements EliminationRule {
         int count = 0;
 
         for (String vote : votes) {
-            if (count == 0) {
-                majorityVote = vote;
-                count = 1;
-            } else if (majorityVote.equals(vote)) {
-                count++;
-            } else {
-                count--;
+            if (vote != null) {
+                if (count == 0) {
+                    majorityVote = vote;
+                    count = 1;
+                } else if (majorityVote.equals(vote)) {
+                    count++;
+                } else {
+                    count--;
+                }
             }
         }
 
