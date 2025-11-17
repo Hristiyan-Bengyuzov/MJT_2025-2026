@@ -9,29 +9,44 @@ public class LowAttributeSumEliminationRule implements EliminationRule {
         this.threshold = threshold;
     }
 
-    @Override
-    public Ergenka[] eliminateErgenkas(Ergenka[] ergenkas) {
-        if (ergenkas == null || ergenkas.length == 0) {
-            return new Ergenka[0];
-        }
-
-        int ergenkasCount = 0;
-        for (Ergenka ergenka : ergenkas) {
-            if (ergenka != null && getErgenkaScore(ergenka) >= threshold) {
-                ergenkasCount++;
-            }
-        }
-
-        Ergenka[] res = new Ergenka[ergenkasCount];
-        int write = 0;
-        for (Ergenka ergenka : ergenkas) {
-            if (ergenka != null && getErgenkaScore(ergenka) >= threshold) {
-                res[write++] = ergenka;
-            }
-        }
-
-        return res;
+   @Override
+public Ergenka[] eliminateErgenkas(Ergenka[] ergenkas) {
+    if (ergenkas == null || ergenkas.length == 0) {
+        return new Ergenka[0];
     }
+
+    boolean removeHappened = false;
+
+    for (Ergenka e : ergenkas) {
+        if (e != null && getErgenkaScore(e) < threshold) {
+            removeHappened = true;
+            break;
+        }
+    }
+
+    if (!removeHappened) {
+        return ergenkas; // 
+    }
+
+    int remaining = 0;
+    for (Ergenka e : ergenkas) {
+        if (e != null && getErgenkaScore(e) >= threshold) {
+            remaining++;
+        }
+    }
+
+    Ergenka[] res = new Ergenka[remaining];
+    int w = 0;
+
+    for (Ergenka e : ergenkas) {
+        if (e != null && getErgenkaScore(e) >= threshold) {
+            res[w++] = e;
+        }
+    }
+
+    return res;
+}
+
 
     private int getErgenkaScore(Ergenka ergenka) {
         return ergenka.getHumorLevel() + ergenka.getRomanceLevel();
