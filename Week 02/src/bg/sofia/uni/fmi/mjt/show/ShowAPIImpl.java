@@ -47,10 +47,6 @@ public class ShowAPIImpl implements ShowAPI {
 
     @Override
     public void organizeDate(Ergenka ergenka, DateEvent dateEvent) {
-        if (ergenka == null) {
-            return;
-        }
-
         ergenka.reactToDate(dateEvent);
     }
 }
