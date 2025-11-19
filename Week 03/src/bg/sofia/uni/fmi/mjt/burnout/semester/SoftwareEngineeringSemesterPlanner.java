@@ -24,26 +24,56 @@ public final class SoftwareEngineeringSemesterPlanner extends AbstractSemesterPl
     @Override
     protected UniversitySubject[] selectSubjects(SemesterPlan plan, UniversitySubject[] subjects) {
         SubjectRequirement[] requirements = plan.subjectRequirements();
+        int minCredits = plan.minimalAmountOfCredits();
 
         int totalNeeded = 0;
         for (SubjectRequirement r : requirements) {
             totalNeeded += r.minAmountEnrolled();
         }
 
-        UniversitySubject[] chosen = new UniversitySubject[totalNeeded];
-        int index = 0;
+        UniversitySubject[] chosen = new UniversitySubject[subjects.length];
+        int index = 0, credits = 0;
 
         for (SubjectRequirement req : requirements) {
-            int count = 0;
+            int currEnrolled = 0;
             for (UniversitySubject s : subjects) {
                 if (s.category().equals(req.category())) {
                     chosen[index++] = s;
-                    count++;
-                    if (count == req.minAmountEnrolled()) break;
+                    credits += s.credits();
+                    currEnrolled++;
+
+                    if (currEnrolled == req.minAmountEnrolled()) break;
                 }
             }
         }
 
-        return chosen;
+        // adding more subjects if we didn't reach needed credits
+        for (UniversitySubject s : subjects) {
+            if (credits >= minCredits) {
+                break;
+            }
+
+            if (!contains(chosen, index, s)) {
+                chosen[index++] = s;
+                credits += s.credits();
+            }
+        }
+
+        UniversitySubject[] result = new UniversitySubject[index];
+        for (int i = 0; i < index; i++) {
+            result[i] = chosen[i];
+        }
+
+        return result;
+    }
+
+    private boolean contains(UniversitySubject[] arr, int size, UniversitySubject subject) {
+        for (int i = 0; i < size; i++) {
+            if (arr[i] == subject) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
