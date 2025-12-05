@@ -1,6 +1,6 @@
 package bg.sofia.uni.fmi.mjt.imagekit.algorithm.detection;
 
-import bg.sofia.uni.fmi.mjt.imagekit.RGB;
+import bg.sofia.uni.fmi.mjt.imagekit.Color;
 import bg.sofia.uni.fmi.mjt.imagekit.algorithm.ImageAlgorithm;
 
 import java.awt.image.BufferedImage;
@@ -40,8 +40,8 @@ public class SobelEdgeDetection implements EdgeDetectionAlgorithm {
 
                 double magnitude = Math.sqrt(gx * gx + gy * gy);
 
-                int pixelValue = RGB.getPixelValue(magnitude);
-                result.setRGB(x, y, RGB.fromGrayscale(pixelValue));
+                int pixelValue = Color.getPixelValue(magnitude);
+                result.setRGB(x, y, Color.fromGrayscale(pixelValue));
             }
         }
 
@@ -60,9 +60,9 @@ public class SobelEdgeDetection implements EdgeDetectionAlgorithm {
                     continue;
                 }
 
-                RGB rgb = new RGB(image.getRGB(pixelX, pixelY));
+                Color color = new Color(image.getRGB(pixelX, pixelY));
 
-                int pixelValue = rgb.getRed();
+                int pixelValue = color.getRed();
                 int kernelValue = kernel[ky + 1][kx + 1];
                 sum += pixelValue * kernelValue;
             }

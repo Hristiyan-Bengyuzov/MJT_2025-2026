@@ -1,6 +1,6 @@
 package bg.sofia.uni.fmi.mjt.imagekit.algorithm.grayscale;
 
-import bg.sofia.uni.fmi.mjt.imagekit.RGB;
+import bg.sofia.uni.fmi.mjt.imagekit.Color;
 
 import java.awt.image.BufferedImage;
 
@@ -21,14 +21,14 @@ public class LuminosityGrayscale implements GrayscaleAlgorithm {
 
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                RGB rgb = new RGB(image.getRGB(x, y));
+                Color color = new Color(image.getRGB(x, y));
 
-                double grayscaleValue = RED_COEFFICIENT * rgb.getRed()
-                        + GREEN_COEFFICIENT * rgb.getGreen()
-                        + BLUE_COEFFICIENT * rgb.getBlue();
+                double grayscaleValue = RED_COEFFICIENT * color.getRed()
+                        + GREEN_COEFFICIENT * color.getGreen()
+                        + BLUE_COEFFICIENT * color.getBlue();
 
-                int grayPixel = RGB.getPixelValue(grayscaleValue);
-                result.setRGB(x, y, RGB.fromGrayscale(grayPixel));
+                int grayPixel = Color.getPixelValue(grayscaleValue);
+                result.setRGB(x, y, Color.fromGrayscale(grayPixel));
             }
         }
 

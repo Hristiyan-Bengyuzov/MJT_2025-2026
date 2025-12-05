@@ -1,6 +1,6 @@
 package bg.sofia.uni.fmi.mjt.imagekit;
 
-public class RGB {
+public class Color {
     private static final int MIN_PIXEL_VALUE = 0;
     private static final int MAX_PIXEL_VALUE = 255;
     private static final int RED_SHIFT = 16;
@@ -9,11 +9,11 @@ public class RGB {
 
     private final int rgb;
 
-    public RGB(int rgb) {
+    public Color(int rgb) {
         this.rgb = rgb;
     }
 
-    public RGB(int red, int green, int blue) {
+    public Color(int red, int green, int blue) {
         red = getPixelValue(red);
         green = getPixelValue(green);
         blue = getPixelValue(blue);
